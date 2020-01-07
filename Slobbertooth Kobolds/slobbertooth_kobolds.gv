@@ -1,0 +1,116 @@
+digraph slobbertooth_kobolds {
+
+ citation[shape=plain, label="This work is a derivative of \'Into The Lair Of The Slobbertooth Kobolds\' by Luke E. Dodd, used under a CC-BY-SA-3.0 license.", fontsize=8]
+ # https://thecromcast.blogspot.com/2018/03/into-lair-of-slobbertooth-kobolds-one.html
+ # https://drive.google.com/file/d/1jyNriADfU-7oaKW6JSyT4SyxG1grOqbx
+ 
+  graph [fontname=Courier, compound=true, color=none];
+  node [fontname=Courier, fontsize=12, height=.5];
+  edge [fontname =Courier, fontsize=10];
+
+  bgcolor = transparent
+  splines=false
+  rankdir = BT
+  ranksep = .3
+  nodesep = .2
+
+  {# Entrance & Baseline Lighting
+    node [shape=triangle, style=filled, fillcolor=white, 
+          fontsize=8, width=.5, margin=0]
+    entry[label="start"]
+  }
+  
+  {# Occupied Room / Encounter
+    node [shape=rectangle]
+    tower[label="tower"];
+    hole[height=.5, width=.5, style=filled, fillcolor=gray, label="spider\nhole"]
+    nest[height=.5, width=.5, style=filled, fillcolor=gray, label="spider\nnest"]
+  }
+ 
+  {# Boss/Lair/Objective
+    node [shape=house, margin=0]
+    chief[label="chieftain"]
+  }
+
+  {# Secret
+    node [shape=rectangle, style="dashed,rounded", color=red, fontcolor=red]
+    treasure[label="treasury"]
+  }
+  
+  {# Special/Treasure
+    node [shape=rectangle, style=rounded]
+    store[label="oil barrel\nstoreroom"]
+  }
+  
+  {# Designed Trap/Trick
+    node [shape=trapezium, margin=0]
+    tripwire[label="trip\nwire", fontsize=10]
+    tanglefoot[label="sticky\ntar", fontsize=10]
+  }
+
+  {# Open Area
+    node [shape=circle, height=1.3, style=dotted, margin=0, fontsize=10]
+    exterior[label="exterior\napproach"]
+  }
+ 
+  {# Junction
+    node [shape=Msquare, height=.25, width=.25, fontsize=8]
+    hall[label="", style=filled, fillcolor=lightgray]
+  }
+
+  {# Obstacle/Obstruction
+    node [shape=octagon, margin=0]
+    main[label="main hall\nbarricade", style=dashed]
+    web[label="spiderweb", fontsize=10, style=filled, fillcolor=lightgray]
+    terrain[label="steep\nterrain", fontsize=10]
+  }
+
+  {# Enviromental Hazard
+    node [shape=diamond, margin=0]
+    parapet[label="unstable\nparapet"]      
+    antechamber[label="antechamber\npitfall"]
+  }
+
+  # Passages
+  edge [dir=none, label="", fontsize=8,]
+
+  citation->entry[style=invis, minlen=1]
+  entry->exterior
+  tower->terrain[dir=back, arrowtail=obox]
+  terrain->exterior
+  tower->parapet[style=dashed, 
+                 taillabel="30ft\n ladder", weight=2]
+  parapet->exterior[dir=both, arrowtail=crow, arrowhead=vee, style=dotted, 
+                    taillabel="    shoot fire\n     ", color=gray, fontcolor=dimgray]
+  exterior:e->tripwire:s[dir=forward, style=dotted, arrowhead=odot, weight=2]
+  
+  {rank=same;tower;terrain;exterior}
+
+  exterior->antechamber[dir=forward, arrowhead=obox, headlabel="creaky  \nwooden  ", weight=4]
+  antechamber->web->hall[weight=3]
+  hole->hall
+  hall->nest
+  web->hole:se[dir=forward, arrowhead=normal, style=dotted, 
+               headlabel="move \nweb", color=gray, fontcolor=dimgray]
+  web->nest:sw[dir=forward, arrowhead=normal, style=dotted, color=gray]
+
+  {rank=same;hole,hall,nest}
+  
+  chief->main
+  hall->main[weight=4]
+  main->store[dir=back, arrowtail=obox]
+  hole:n->treasure[dir=back, arrowtail=odot, 
+                   taillabel="whispy web  ",
+                   style=dashed, color=red, fontcolor=red]
+  treasure->main:sw[dir=forward, arrowhead=odot,
+                    headlabel="flickering brazier  ",
+                    style=dashed, color=red, fontcolor=red]
+  
+  tripwire->tanglefoot[weight=4]
+  tripwire:w->main:se[dir=forward, style=dashed, arrowhead=normal, 
+                      headlabel="   ring bells  ", color=gray, fontcolor=dimgray]
+  tanglefoot->store[weight=4]
+  
+  {rank=same;chief;main;store}
+  
+}

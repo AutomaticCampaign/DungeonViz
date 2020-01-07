@@ -1,0 +1,185 @@
+digraph legend {
+
+  graph [fontname=Courier, compound=true, color=none];
+  node [fontname=Courier, fontsize=12, height=.5, margin=0];
+  edge [fontname =Courier, fontsize=10];
+
+  bgcolor = transparent
+  splines=ortho
+  rankdir = LR
+  ranksep = .3
+  nodesep = .2
+  
+  {# Designed Trap/Trick
+    node [shape=trapezium, margin=0]
+    T1[label=""]
+  }
+
+  {# Enviromental Hazard
+    node [shape=diamond]
+    H1[label=""]
+  }
+
+  {# Obstacle/Obstruction
+    node [shape=octagon]
+    O1[label=""]
+  }
+
+  {# Junction
+    node [shape=Msquare, height=.25, width=.25, fontsize=8]
+    J1[label=""]
+  }
+
+  {# Open Area
+    node [shape=circle, style=dotted]
+    A1[label=""]
+  }
+
+  {# Secret
+    node [shape=rectangle, style="dashed,rounded", color=red, fontcolor=red]
+    S1[label=""]
+  }
+  
+  {# Special/Treasure
+    node [shape=rectangle, style=rounded]
+    X1[label=""]
+  }
+
+  {# Empty Room(s) / Information
+    node [shape=ellipse]
+    E1[label=""]
+  }
+
+  {# Boss/Lair/Objective
+    node [shape=house]
+    B1[label=""]
+  }
+  
+  {# Occupied Room / Encounter
+    node [shape=rectangle]
+    R1[label=""]
+  }
+
+  {# Entrance/Transition & Baseline Lighting
+    node [shape=triangle] # shape=invtriangle
+    L1[label=""]
+  }
+
+//   {# Dead-end
+//     node [shape=point, height=.1, width=.1, label=""]
+//     D1
+//   }
+
+  ##########
+  # LEGEND #
+  ##########
+  
+  {# Arrow Targets
+    node [shape=square, height=.25, width=.25, label="", color=gray]
+    at2;at4;at6;at8;at10;at12;at14;at16;at18;at20;at22
+  }
+  
+  {# Label Targets
+    node[shape=rect, color=gray, fontcolor=dimgray, label=""]
+    lt1[label="Target"]
+    lt2[style=dashed, label="Effect"]
+  }
+
+  {# Lighting Demos
+    node [shape=invtriangle, style=filled]
+    l2[label="Lit", fillcolor=white]
+    l3[label="Dim", fillcolor=lightgray]
+    l4[label="Dark", fillcolor=dimgray]
+    l5[shape=octagon, label="Magic", fillcolor=black, fontcolor=white]
+    l6[label="Dark", fillcolor=lightgray]
+    l7[label="Dim", fillcolor=white]
+  }
+
+  # Labels
+  subgraph cluster_shape1{
+    
+    node[shape=plaintext, height=0, fontsize=12, margin=.1]
+    edge[style=invis]
+    "Entrance/\nTransition"->L1
+    "Occupided Room/\nEncounter"->R1
+    "Boss/Lair/\nObjective"->B1
+    "Empty Room(s)/\nInformation"->E1
+    "Special/\nTreasure"->X1
+    "Secret\nRoom"[shape=plaintext, height=0, fontsize=12, fontcolor=red]; # LEGEND ONLY
+    "Secret\nRoom"->S1
+  }  
+    
+  subgraph cluster_shape2{
+    
+    node[shape=plaintext, height=0, fontsize=12, margin=.1]
+    edge[style=invis]
+    "Obstacle/\nObstruction"->O1
+    "Enviromental\nHazard"->H1
+    "Designed\nTrap/Trick"->T1
+    "Corridor\nJunction"->J1
+    "Open Area &\nAlt. Route"->A1[dir=none, style=dotted]
+    node[fontcolor=dimgray]
+    "Control/\nTrigger"->lt2[dir=both, arrowtail=vee, arrowhead=crow, 
+                             style=dotted, color=gray]
+    "Embrasure/\nSightline"->lt1[dir=both, arrowtail=curve, arrowhead=icurve
+                                 style=dotted, color=gray]
+  }
+
+  # Arrowheads
+  subgraph cluster_arrowhead1{ 
+
+    node [shape=plaintext, margin=.25]
+    at21[label="Adjacent/\nContinuous"]
+    at19[label="Open\nPassage"]
+    at17[label="Door"]
+    at15[label="Locked/\nTrapped/\nStuck"]
+    at13[label="Secret", fontcolor=red]
+
+    edge [dir=forward, style="", fontsize=12]
+    at21->at22[arrowhead=none]
+    at19->at20[arrowhead=oinv]
+    at17->at18[arrowhead=obox]
+    at15->at16[arrowhead=odiamond]
+    at13->at14[arrowhead=odot, color=red, style=dashed  ]
+  }
+
+  subgraph cluster_arrowhead2{
+    
+    node [shape=plaintext, margin=.25]
+    at11[label="Conditional"]
+    at9[label="One-way"]
+    at7[label="Impassable/\nPortcullis"]
+    at5[label="Dead-end"]
+    at3[label="False Door"]
+    at1[label="Up/\nSteep"]
+
+    edge [dir=forward, style="", fontsize=12]
+    at11->at12[dir=none, style=dashed]
+    at9->at10[arrowhead=oboxtee]
+    at7->at8[arrowhead=teeteetee]
+    at5->at6[arrowhead=dot]
+    at3->at4[arrowhead=box]
+    at1->at2[arrowhead=oinvinv]
+  }
+  
+  subgraph cluster_lighting{
+    node [shape=plaintext, margin=.25]
+    b0[label="Lighting", fontsize=12]
+    b1[label="Three\nLevels"]
+    b2[label="Two\nLevels"]
+    b1:n->l2:w[dir=none, weight=2]
+    b1:s->l4[dir=none]
+    b2:s->l6[dir=none]
+    b2:n->l7[dir=none]
+    l5->l4->l3->l2[dir=none]
+    l6->l7[dir=none]
+    {rank=same;l2;l3;l4;l5;l6;l7}
+    {rank=same;b0;b1;b2}
+  }
+  
+  edge[style=invis]
+  L1->"Obstacle/\nObstruction"
+  O1->at21
+  at22->at11
+  at10->b0
+}
